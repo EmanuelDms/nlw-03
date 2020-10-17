@@ -1,3 +1,4 @@
+import { query } from "express";
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class createOrphanages1602885147572 implements MigrationInterface {
@@ -8,9 +9,9 @@ export class createOrphanages1602885147572 implements MigrationInterface {
         {
           name: 'id',
           type: 'integer',
-          /* número positivo */
-          unsigned: true,
+          unsigned: true, /* número positivo */
           isPrimary: true,
+          isGenerated: true,
           generationStrategy: 'increment',
         },
         {
@@ -21,7 +22,7 @@ export class createOrphanages1602885147572 implements MigrationInterface {
           name: 'latitude',
           type: 'decimal',
           scale: 10,
-          precision: 2,
+          precision: 2, //numeros antes e depois da virgula
         },
         {
           name: 'longitude',
@@ -51,6 +52,7 @@ export class createOrphanages1602885147572 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    //desfazer o que foi feito no up se criar, deletar - pq é comum voltar atrás
     await queryRunner.dropTable('orphanages');
   }
 }
